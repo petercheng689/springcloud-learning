@@ -1,0 +1,36 @@
+server:
+  port: 8092
+  
+spring: 
+  application:
+    name: springcloud-hystrix-turbine
+  security:             #安全认证
+    basic: 
+      enabled: true
+    user: 
+      name: peter        #用户名
+      password: admin432 #密码
+    
+# =============eureka =======#    
+eureka: 
+  client: 
+    serviceUrl:                      #默认服务注册中心地址,多个用","隔开
+      defaultZone: http://peter:admin432@localhost:8077/eureka #eureka服务端地址
+  instance: 
+    hostname: localhost              #服务注册中心实例的主机名
+    #prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    lease-renewal-interval-in-seconds: 10  #心跳间隔10s,默认30s
+    lease-expiration-duration-in-seconds: 30  #到期时间30s,默认90s,当server 90秒内没有收到client的注册信息时，会将该节点剔除
+    non-secure-port: 8092 # 这里指定端口，必须与server.port保持一致,解决Turbine无法注册到eureka的问题   
+      
+  
+
+#turbine
+turbine:
+  aggregator:
+    clusterConfig: default
+  appConfig: springcloud-consumer-movie-ribbon-with-hystrix,springcloud-consumer-movie-feign-hystrix-fallback,springcloud-consumer-movie-feign-hystrix-fallback-factory
+  clusterNameExpression: "'default'"
+  instanceUrlSuffix: monitor/actuator/hystrix.stream
+    

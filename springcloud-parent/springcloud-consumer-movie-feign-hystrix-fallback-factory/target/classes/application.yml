@@ -1,0 +1,52 @@
+server:
+  port: 8089
+  
+spring:
+  application: 
+    name: springcloud-consumer-movie-feign-hystrix-fallback-factory
+
+     
+# =============eureka客户端 =================#   
+eureka: 
+  client: 
+    serviceUrl: 
+      defaultZone: http://peter:admin432@localhost:8077/eureka #eureka服务端地址
+  instance: 
+    hostname: localhost
+    #prefer-ip-address: true               #为true表示将ip注册到eureka,默认为false,注册的是机器名
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    lease-renewal-interval-in-seconds: 10  #心跳间隔10s,默认30s
+    lease-expiration-duration-in-seconds: 30  #到期时间30s,默认90s,当server 90秒内没有收到client的注册信息时，会将该节点剔除   
+   
+#=============feign===================#
+feign:
+  hystrix:
+    enabled: true
+    
+# =============actuator监控 =======#
+management:
+  server:
+    port: 6399           # 管理的端口调整成6389,默认端口与微服务端口相同
+    address: 127.0.0.1   # 只允许127.0.0.1访问
+    servlet:
+      context-path: /monitor  # actuator的访问路径
+  security:
+    enabled: false      # 关闭client内部端口的身份认证
+  endpoint:
+    shutdown:
+      enabled: true     # 启用shutdown功能
+    beans.cache.time-to-live: 10s
+    env.enabled: true   # 启用端点 env
+  endpoints:
+    enabled-by-default: true # 设置端点是否可用 默认只有shutdown可用
+    web:
+      # 设置是否暴露端点 默认只有health和info可见
+      exposure:
+        # include: env   # 方式1: 暴露端点 env 配置多个,隔开
+        include: "*"     # 方式2: 包括所有端点, 注意需要添加引号
+        # 排除端点
+        exclude: shutdown 
+   
+   
+  
+    

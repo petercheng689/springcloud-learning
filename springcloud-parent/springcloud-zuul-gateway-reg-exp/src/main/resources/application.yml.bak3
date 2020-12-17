@@ -1,0 +1,27 @@
+server:
+  port: 8093
+  
+spring: 
+  application:
+    name: springcloud-zuul-gateway
+
+#eureka
+eureka:
+  client: 
+    serviceUrl: 
+      defaultZone: http://peter:admin432@localhost:8077/eureka/
+
+#zuul
+zuul:
+  routes:
+    abc:
+      path: /users/**
+      serviceId: springcloud-provider-user
+
+ribbon:
+  eureka:
+    enabled: false
+
+springcloud-provider-user:
+  ribbon:
+    listOfServers: http://localhost:8078,http://localhost:8094      

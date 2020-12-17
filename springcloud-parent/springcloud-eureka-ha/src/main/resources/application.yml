@@ -1,0 +1,38 @@
+
+spring: 
+  application:
+    name: eureka-server-ha 
+  security:                 #安全认证
+    basic: 
+      enabled: true
+    user: 
+      name: peter           #用户名
+      password: admin432    #密码
+      
+---
+spring:
+  profiles: peer1
+server:
+  port: 8761
+eureka:
+  instance:
+    hostname: peer1
+  client:
+    serviceUrl:
+      defaultZone: http://peter:admin432@peer2:8762/eureka/
+
+---
+spring:
+  profiles: peer2
+server:
+  port: 8762
+eureka:
+  instance:
+    hostname: peer2
+  client:
+    serviceUrl:
+      defaultZone: http://peter:admin432@peer1:8761/eureka/    
+
+
+
+    

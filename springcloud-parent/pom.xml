@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.springcloud.springcloud-parent</groupId>
+	<artifactId>springcloud-parent</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<description>SpringCloud父级项目</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.3.RELEASE</version> <!--2.0.1.RELEASE;2.0.3.RELEASE;2.1.3.RELEASE  -->
+		<!-- 经过检验的版本配对
+		    springboot 2.0.3.RELEASE  VS springcloud Finchley.SR2
+		    springboot 2.1.3.RELEASE  VS springcloud Greenwich.SR6(SR2、SR4)
+		 -->
+	</parent>
+<!--SpringBoot 2.0.1与SpringCloudFinchley.RC2一起使用时, 
+      当使用springboot的actuator组件时,默认情况下actuator与datasource出现循环依赖问题
+      需要配置spring.cloud.refresh.refreshable=none
+ -->
+  <modules>
+		<module>springcloud-eureka</module>
+		<module>springcloud-eureka-ha</module>
+		<module>springcloud-provider-user</module>
+		<module>springcloud-consumer-movie</module>
+        <module>springcloud-consumer-movie-ribbon</module>
+		<module>springcloud-consumer-movie-ribbon-customizing</module>
+        <module>springcloud-consumer-movie-ribbon-properties-customizing</module>
+        <module>springcloud-consumer-movie-ribbon-without-eureka</module>
+		<module>springcloud-consumer-movie-ribbon-with-hystrix</module>
+        <module>springcloud-consumer-movie-feign</module>
+        <module>springcloud-consumer-movie-feign-customizing</module>
+		<module>springcloud-consumer-movie-feign-hystrix-fallback</module>
+		<module>springcloud-consumer-movie-feign-hystrix-fallback-factory</module>
+		<module>springcloud-consumer-movie-feign-customizing-without-hystrix</module>
+        <module>springcloud-hystrix-dashboard</module>
+		<module>springcloud-hystrix-turbine</module>
+		<module>springcloud-zuul-gateway</module>
+		<module>springcloud-zuul-gateway-reg-exp</module>
+		<module>springcloud-zuul-gateway-filter</module>
+		<module>springcloud-zuul-gateway-fallback</module>
+		<module>springcloud-sidecar</module>
+		<module>springcloud-consumer-movie-ribbon-sidecar</module>	
+		
+    <module>springcloud-config-server</module>
+  </modules>
+  
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<java.version>1.8</java.version>
+		<slf4j.version>1.7.25</slf4j.version>
+		<spring-cloud.version>Greenwich.SR6</spring-cloud.version><!--Finchley.RC2(低); Finchley.SR2(高); Greenwich.SR6(高) -->
+		<mapper.starter.version>2.0.1</mapper.starter.version>
+		<mybatis.starter.version>1.3.2</mybatis.starter.version>
+		<druid.starter.version>1.1.9</druid.starter.version>
+		<mysql.version>5.1.32</mysql.version>
+		<pageHelper.starter.version>1.2.3</pageHelper.starter.version>
+		<leyou.latest.version>1.0.0-SNAPSHOT</leyou.latest.version>
+	</properties>
+	<dependencyManagement>
+		<dependencies>
+
+			<!-- springCloud -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!-- mybatis启动器 -->
+			<dependency>
+				<groupId>org.mybatis.spring.boot</groupId>
+				<artifactId>mybatis-spring-boot-starter</artifactId>
+				<version>${mybatis.starter.version}</version>
+			</dependency>
+
+			<!-- 通用Mapper启动器 -->
+			<dependency>
+				<groupId>tk.mybatis</groupId>
+				<artifactId>mapper-spring-boot-starter</artifactId>
+				<version>${mapper.starter.version}</version>
+			</dependency>
+
+			<!-- 分页助手启动器 -->
+			<dependency>
+				<groupId>com.github.pagehelper</groupId>
+				<artifactId>pagehelper-spring-boot-starter</artifactId>
+				<version>${pageHelper.starter.version}</version>
+			</dependency>
+
+			<!-- mysql驱动 -->
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql.version}</version>
+			</dependency>
+
+			<!-- ================================================= -->
+			<!-- 日志 -->
+			<!-- ================================================= -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<!--log4j dispatch to slf4j -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>log4j-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<!--java.util.log dispatch to slf4j -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jul-to-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<!--common logging dispatch to slf4j -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>1.2.3</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+				<version>1.1.3</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.17</version>
+				<scope>provided</scope>
+			</dependency>
+			<!-- ======================================== -->
+			<!-- 第三方依赖 -->
+			<!-- ======================================== -->
+			<!-- junit -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.10</version>
+				<scope>test</scope>
+			</dependency>
+			<!-- apache commons -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.6</version>
+			</dependency>
+			<!-- guava -->
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>20.0</version>
+			</dependency>
+			<!-- json lib -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>1.2.69</version>
+			</dependency>
+			<!-- zookeeper client -->
+			<dependency>
+				<groupId>org.apache.curator</groupId>
+				<artifactId>curator-recipes</artifactId>
+				<version>2.12.0</version><!--(client 2.x.x <==> server 3.4.x) (client 
+					3.x.x <==> server 3.5.x) -->
+				<exclusions>
+					<exclusion>
+						<artifactId>netty</artifactId>
+						<groupId>io.netty</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.curator</groupId>
+				<artifactId>curator-x-discovery</artifactId>
+				<version>2.12.0</version><!--(client 2.x.x <==> server 3.4.x) (client 
+					3.x.x <==> server 3.5.x) -->
+			</dependency>
+			<!-- redis client -->
+			<dependency>
+				<groupId>redis.clients</groupId>
+				<artifactId>jedis</artifactId>
+				<version>2.9.0</version>
+			</dependency>
+			<!-- config -->
+			<dependency>
+				<groupId>com.typesafe</groupId>
+				<artifactId>config</artifactId>
+				<version>1.3.3</version>
+			</dependency>
+			<!-- javassist -->
+			<dependency>
+				<groupId>org.javassist</groupId>
+				<artifactId>javassist</artifactId>
+				<version>3.22.0-GA</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+
+</project>

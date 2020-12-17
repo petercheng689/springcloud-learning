@@ -1,0 +1,31 @@
+server:
+  port: 8077
+  
+spring: 
+  application:
+    name: eureka-server
+  security:             #安全认证
+    basic: 
+      enabled: true
+    user: 
+      name: peter        #用户名
+      password: admin432 #密码
+    
+# =============eureka =======#    
+eureka: 
+  instance: 
+    hostname: localhost              #服务注册中心实例的主机名
+  server: 
+    enable-self-preservatioin: true  #是否开启自我保护，默认true
+    renewal-percent-threshold: 0.5   #开启自我保护的系数,默认：0.85
+    #eviction-interval-timer-in-ms: 5000 #默认为60*1000ms
+  
+  client: 
+    register-with-eureka: false      #是否向服务注册中心注册自己
+    fetch-registry: false            #是否检索服务
+    healthcheck:
+      enabled: true                  #健康检查,需要Actuator
+    serviceUrl:                      #默认服务注册中心地址,多个用","隔开
+      defaultZone: http://peter:admin432@${eureka.instance.hostname}:${server.port}/eureka/
+  
+    

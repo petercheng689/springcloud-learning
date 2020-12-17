@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: springcloud-zuul-gateway-reg-exp
+Implementation-Version: 1.0.0-SNAPSHOT
+Built-By: 17542
+Implementation-Vendor-Id: com.springcloud.springcloud-zuul-gateway-reg
+ -exp
+Build-Jdk: 1.8.0_181
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/springcloud-parent/springcloud-zuul-gateway-reg-exp
+Created-By: Maven Integration for Eclipse
+
